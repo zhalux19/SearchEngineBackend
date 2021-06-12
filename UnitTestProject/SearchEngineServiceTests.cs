@@ -9,12 +9,12 @@ using Xunit;
 
 namespace UnitTestProject
 {
-    public class SearchEngineServiceTest
+    public class SearchEngineServiceTests
     {
         private readonly ISearchEngineService _searchEngineService;
         private readonly ISearchEngineRepository _searchEngineRepository;
 
-        public SearchEngineServiceTest()
+        public SearchEngineServiceTests()
         {
             _searchEngineRepository = Substitute.For<ISearchEngineRepository>();
             _searchEngineService = new SearchEngineService(_searchEngineRepository);

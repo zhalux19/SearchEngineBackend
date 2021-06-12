@@ -3,10 +3,10 @@ using Xunit;
 
 namespace UnitTestProject
 {
-    public class SearchEngineRepositoryTest
+    public class SearchEngineRepositoryTests
     {
         private readonly ISearchEngineRepository _searchEngineRepository;
-        public SearchEngineRepositoryTest()
+        public SearchEngineRepositoryTests()
         {
             _searchEngineRepository = new SearchEngineRepository();
         }

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace UnitTestProject
 {
-    public class SearchEngineUrlRankServiceTest
+    public class SearchEngineUrlRankServiceTests
     {
         private readonly ISearchEngineUrlRankService _searchEngineUrlRankService;
         private readonly ISearchEngineRepository _searchEngineRepo;
@@ -17,7 +17,7 @@ namespace UnitTestProject
         private readonly IPatternAnalyseService _patternAnalyseService;
         private readonly ICacheService _cacheService;
 
-        public SearchEngineUrlRankServiceTest()
+        public SearchEngineUrlRankServiceTests()
         {
             _searchEngineRepo = Substitute.For<ISearchEngineRepository>();
             _pageFetchService = Substitute.For<IPageFetchService>();
@@ -29,7 +29,7 @@ namespace UnitTestProject
         //Test all paths
 
         [Fact]
-        public async void  SearchEngineUrlRankService_When_Cache_Available_Should_Not_Need_To_Mock_PageFetchService()
+        public async void SearchEngineUrlRankService_Should_Not_Need_To_Mock_PageFetchService_When_Cache_Available()
         {
             //Arrange
             var cachedData = new List<string>() {};
@@ -48,7 +48,7 @@ namespace UnitTestProject
         }
 
         [Fact]
-        public async void SearchEngineUrlRankService_When_Cache_Not_Available_Should_Mock_PageFetchService()
+        public async void SearchEngineUrlRankService_Should_Mock_PageFetchService_When_Cache_Not_Available()
         {
             //Arrange
             var cachedData = new List<string>() { };
