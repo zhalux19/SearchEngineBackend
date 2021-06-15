@@ -16,13 +16,15 @@ namespace SearchEngineParser.BusinessLayer
         private readonly IPageFetchService _pageFetchService;
         private readonly IPatternAnalyseService _patternAnalyseService;
         private readonly ICacheService _cacheService;
+        private readonly IKeywordCleaningService _keywordCleaningService;
 
-        public SearchEngineUrlRankService(ISearchEngineRepository searchEngineRepo, IPageFetchService pageFetchService, IPatternAnalyseService patternAnalyseService, ICacheService cacheService)
+        public SearchEngineUrlRankService(ISearchEngineRepository searchEngineRepo, IPageFetchService pageFetchService, IPatternAnalyseService patternAnalyseService, ICacheService cacheService, IKeywordCleaningService keywordCleaningService)
         {
             _searchEngineRepo = searchEngineRepo;
             _pageFetchService = pageFetchService;
             _patternAnalyseService = patternAnalyseService;
             _cacheService = cacheService;
+            _keywordCleaningService = keywordCleaningService;
         }
 
         public async Task<IEnumerable<int>> FindUrlRankFromSearchEngine(int searchEngineId, string targetUrl, string keyword)
@@ -33,6 +35,7 @@ namespace SearchEngineParser.BusinessLayer
             if(searchResultLinks == null)
             {
                 var searchEngine = _searchEngineRepo.GetSearchEngineById(searchEngineId);
+                _keywordCleaningService.PrepareKeywordForSearchEngineUrl(ref keyword);
                 var searchEngineUrl = String.Format(searchEngine.UrlPattern, keyword);
                 var pageContent = await _pageFetchService.FetchPageContentByUrl(searchEngineUrl);
                 searchResultLinks = _patternAnalyseService.GetSearchResultLinks(pageContent, searchEngine.RegexPattern);

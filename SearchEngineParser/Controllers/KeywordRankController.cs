@@ -22,12 +22,12 @@ namespace SearchEngineParser.Controllers
         {
             if(string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(targetUrl) )
             {
-                return BadRequest(new {Message = "Request not valid" });
+                return BadRequest("Request not valid");
             }
 
             if (!_searchEngineService.ValidateSearchEngineId(searchEngineId))
             {
-                return NotFound(new { Message = "Invalid search engine" });
+                return NotFound("Invalid search engine");
             }
 
             var result = await _searchEngineUrlRankService.FindUrlRankFromSearchEngine(searchEngineId, targetUrl, keyword);
