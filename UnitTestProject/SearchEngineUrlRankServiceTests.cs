@@ -17,6 +17,8 @@ namespace UnitTestProject
         private readonly IPatternAnalyseService _patternAnalyseService;
         private readonly ICacheService _cacheService;
         private readonly IKeywordCleaningService _keywordCleaningService;
+        private readonly IRankService _rankService;
+
 
         public SearchEngineUrlRankServiceTests()
         {
@@ -25,7 +27,8 @@ namespace UnitTestProject
             _patternAnalyseService = Substitute.For<IPatternAnalyseService>();
             _cacheService = Substitute.For<ICacheService>();
             _keywordCleaningService = Substitute.For<IKeywordCleaningService>();
-            _searchEngineUrlRankService = new SearchEngineUrlRankService(_searchEngineRepo, _pageFetchService, _patternAnalyseService, _cacheService, _keywordCleaningService);
+            _rankService = Substitute.For<IRankService>();
+            _searchEngineUrlRankService = new SearchEngineUrlRankService(_searchEngineRepo, _pageFetchService, _patternAnalyseService, _cacheService, _keywordCleaningService, _rankService);
         }
 
         //Test all paths
@@ -39,7 +42,7 @@ namespace UnitTestProject
                 .Returns(cachedData);
 
             var regexServiceResult = new List<int>() { 1, 2 };
-            _patternAnalyseService.LoopLinksForRanks(Arg.Any<IEnumerable<string>>(), Arg.Any<string>())
+            _rankService.LoopLinksForTargetRanks(Arg.Any<IEnumerable<string>>(), Arg.Any<string>())
                 .Returns(regexServiceResult);
 
             //Act
@@ -63,7 +66,7 @@ namespace UnitTestProject
             _cacheService.WriteToCache(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(true);
             
             var regexServiceResult = new List<int>() { 1, 2 };
-            _patternAnalyseService.LoopLinksForRanks(Arg.Any<IEnumerable<string>>(), Arg.Any<string>())
+            _rankService.LoopLinksForTargetRanks(Arg.Any<IEnumerable<string>>(), Arg.Any<string>())
                 .Returns(regexServiceResult);
 
             //Act

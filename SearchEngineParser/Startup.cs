@@ -33,6 +33,7 @@ namespace SearchEngineParser
             services.AddTransient<IPatternAnalyseService, PatternAnalyseService>();
             services.AddTransient<ICacheService, CacheService>();
             services.AddTransient<IKeywordCleaningService, KeywordCleaningService>();
+            services.AddTransient<IRankService, RankService>();
 
             services.AddCors(options =>
             {
