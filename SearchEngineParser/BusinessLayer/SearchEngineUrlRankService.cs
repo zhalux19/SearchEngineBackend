@@ -17,14 +17,16 @@ namespace SearchEngineParser.BusinessLayer
         private readonly IPatternAnalyseService _patternAnalyseService;
         private readonly ICacheService _cacheService;
         private readonly IKeywordCleaningService _keywordCleaningService;
+        private readonly IRankService _rankService;
 
-        public SearchEngineUrlRankService(ISearchEngineRepository searchEngineRepo, IPageFetchService pageFetchService, IPatternAnalyseService patternAnalyseService, ICacheService cacheService, IKeywordCleaningService keywordCleaningService)
+        public SearchEngineUrlRankService(ISearchEngineRepository searchEngineRepo, IPageFetchService pageFetchService, IPatternAnalyseService patternAnalyseService, ICacheService cacheService, IKeywordCleaningService keywordCleaningService, IRankService rankService)
         {
             _searchEngineRepo = searchEngineRepo;
             _pageFetchService = pageFetchService;
             _patternAnalyseService = patternAnalyseService;
             _cacheService = cacheService;
             _keywordCleaningService = keywordCleaningService;
+            _rankService = rankService;
         }
 
         public async Task<IEnumerable<int>> FindUrlRankFromSearchEngine(int searchEngineId, string targetUrl, string keyword)
@@ -43,7 +45,7 @@ namespace SearchEngineParser.BusinessLayer
                 _cacheService.WriteToCache(cacheKey, searchResultLinks, TimeSpan.FromMinutes(60));
             }
 
-            return _patternAnalyseService.LoopLinksForRanks(searchResultLinks, targetUrl);
+            return _rankService.LoopLinksForTargetRanks(searchResultLinks, targetUrl);
         }
     }
 }
