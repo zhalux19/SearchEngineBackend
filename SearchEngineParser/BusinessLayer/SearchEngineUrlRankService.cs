@@ -37,9 +37,7 @@ namespace SearchEngineParser.BusinessLayer
             if(searchResultLinks == null)
             {
                 var searchEngine = _searchEngineRepo.GetSearchEngineById(searchEngineId);
-                _keywordCleaningService.PrepareKeywordForSearchEngineUrl(ref keyword);
-                var searchEngineUrl = String.Format(searchEngine.UrlPattern, keyword);
-                var pageContent = await _pageFetchService.FetchPageContentByUrl(searchEngineUrl);
+                var pageContent = await _pageFetchService.FetchPageContentFromSearchEngineForKeyword(searchEngine.UrlPattern, keyword);
                 searchResultLinks = _patternAnalyseService.GetSearchResultLinks(pageContent, searchEngine.RegexPattern);
 
                 _cacheService.WriteToCache(cacheKey, searchResultLinks, TimeSpan.FromMinutes(60));
