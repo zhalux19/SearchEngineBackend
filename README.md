@@ -24,3 +24,5 @@ We can add send multiple requests with different paging info to make sure we get
 
 Some search engines do not return the result in html straight away. They call their api service onPageLoad using ajax.
 The currently web client is not able to read those result. We can add a variation to call those search engine api endpoints.
+
+Increase unit test coverage
