@@ -61,7 +61,7 @@ namespace UnitTestProject
 
             var searchEngine = new SearchEngine() { Id = 1, Name = "Google", RegexPattern = "", UrlPattern = "urlPattern{0}" };
             _searchEngineRepo.GetSearchEngineById(Arg.Any<int>()).Returns(searchEngine);
-            _pageFetchService.FetchPageContentByUrl(Arg.Any<string>()).Returns(Task.FromResult("page content"));
+            _pageFetchService.FetchPageContentFromSearchEngineForKeyword(Arg.Any<string>(), Arg.Any<string>()).Returns(Task.FromResult("page content"));
             _patternAnalyseService.GetSearchResultLinks(Arg.Any<string>(), Arg.Any<string>()).Returns(new List<string>());
             _cacheService.WriteToCache(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<TimeSpan>()).Returns(true);
             

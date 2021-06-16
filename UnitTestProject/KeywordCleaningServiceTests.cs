@@ -15,14 +15,21 @@ namespace UnitTestProject
         [Fact]
         public void PrepareKeywordForSearchEngineUrl_Should_Replace_Space_With_Plus()
         {
-            //Arrange
-            var keyword = "Hello world";
+            var keyword = "hello world";
 
-            //Act
-            _keywordCleaningService.PrepareKeywordForSearchEngineUrl(ref keyword);
+            var result = _keywordCleaningService.PrepareKeywordForSearchEngineUrl(keyword);
 
-            //Assert
-            Assert.Equal("Hello+world", keyword);
+            Assert.Equal("hello+world", result);
+        }
+
+        [Fact]
+        public void PrepareKeywordForCacheKey_Should_Replace_Space_With_Plus()
+        {
+            var keyword = "hello world";
+
+            var result = _keywordCleaningService.PrepareKeywordForCacheKey(keyword);
+
+            Assert.Equal("hello_world", result);
         }
     }
 }

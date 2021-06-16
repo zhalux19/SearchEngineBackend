@@ -2,11 +2,20 @@
 {
     public interface IKeywordCleaningService
     {
-        void PrepareKeywordForSearchEngineUrl(ref string keyword);
+        string PrepareKeywordForSearchEngineUrl(string keyword);
+        string PrepareKeywordForCacheKey(string keyword);
     }
 
-    public class KeywordCleaningService:IKeywordCleaningService
+    public class KeywordCleaningService : IKeywordCleaningService
     {
-        public void PrepareKeywordForSearchEngineUrl(ref string keyword) => keyword = keyword.Replace(" ", "+");
+        public string PrepareKeywordForSearchEngineUrl(string keyword)
+        {
+            return keyword.Trim().Replace(" ", "+"); 
+        }
+
+        public string PrepareKeywordForCacheKey(string keyword)
+        {
+            return keyword.Trim().Replace(" ", "_");
+        }
     }
 }

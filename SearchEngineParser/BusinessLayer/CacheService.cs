@@ -12,16 +12,18 @@ namespace SearchEngineParser.BusinessLayer
     public class CacheService: ICacheService
     {
         private readonly IMemoryCache _memoryCache;
+        private readonly IKeywordCleaningService _keywordCleaningService;
 
-        public CacheService(IMemoryCache memoryCache)
+        public CacheService(IMemoryCache memoryCache, IKeywordCleaningService keywordCleaningService)
         {
             _memoryCache = memoryCache;
+            _keywordCleaningService = keywordCleaningService;
         }
 
         public T ReadFromCache<T>(string key)
         {
-            CleanCacheKey(ref key);
-            var result = _memoryCache.Get<T>(key);
+            var cleanedKey = _keywordCleaningService.PrepareKeywordForCacheKey(key);
+            var result = _memoryCache.Get<T>(cleanedKey);
             return result;
         }
 
@@ -32,13 +34,13 @@ namespace SearchEngineParser.BusinessLayer
                 return false;
             }
 
-            CleanCacheKey(ref key);
+            var cleanedKey = _keywordCleaningService.PrepareKeywordForCacheKey(key);
 
-            _memoryCache.Set(key, value, new MemoryCacheEntryOptions() { SlidingExpiration = time });
+            _memoryCache.Set(cleanedKey, value, new MemoryCacheEntryOptions() { SlidingExpiration = time });
 
             return true;
         }
 
-        private void CleanCacheKey(ref string key) => key = key.Replace("+", "_");
+
     }
 }
